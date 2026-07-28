@@ -23,17 +23,17 @@
 
 ```mermaid
 flowchart TD
-    V[Visitor] -->|chat message| DEMO[FrontStage demo page<br/>Next.js on Vercel]
-    DEMO -->|POST /api/demo| PROXY[Server route<br/>keeps webhook URL server-side]
-    PROXY -->|webhook| N8N[n8n &quot;FrontStage Demo Responder&quot;<br/>on Render — a public-safe clone of FrontDesk Pro]
-    N8N -->|read tenant config| DB[(Supabase Postgres)]
-    N8N -->|log conversation| DB
-    N8N -->|reply| PROXY --> DEMO
+    V["Visitor"] -->|"chat message"| DEMO["FrontStage demo page (Next.js on Vercel)"]
+    DEMO -->|"POST /api/demo"| PROXY["Server route (keeps webhook URL server-side)"]
+    PROXY -->|"webhook"| N8N["n8n Demo Responder on Render (public-safe clone of FrontDesk Pro)"]
+    N8N -->|"read tenant config"| DB[("Supabase Postgres")]
+    N8N -->|"log conversation"| DB
+    N8N -->|"reply"| PROXY --> DEMO
 
-    O[Business owner] -->|magic link| ADMIN[FrontStage /admin<br/>Next.js Server Components]
-    ADMIN -->|read/write via anon key<br/>RLS-enforced| DB
-    ADMIN -.->|edits config| DB
-    DB -.->|next message reads new config| N8N
+    O["Business owner"] -->|"magic link"| ADMIN["FrontStage /admin (Next.js Server Components)"]
+    ADMIN -->|"read / write via anon key (RLS-enforced)"| DB
+    ADMIN -.->|"edits config"| DB
+    DB -.->|"next message reads new config"| N8N
 ```
 
 **Two backends, one datastore:**
