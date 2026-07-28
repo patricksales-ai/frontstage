@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import ConfigForm from "@/components/ConfigForm";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,7 @@ export default async function AdminPage() {
   // Read via the anon/authenticated key → RLS returns only rows this owner may see.
   const { data: clients, error } = await supabase
     .from("clients")
-    .select("location_id, business_name, services, hours, tone");
+    .select("location_id, business_name, services, hours, tone, faq, escalation_contact");
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 p-6">
@@ -40,27 +41,7 @@ export default async function AdminPage() {
 
       <div className="flex flex-col gap-4">
         {clients?.map((c) => (
-          <div
-            key={c.location_id}
-            className="rounded-xl border border-black/10 p-4 dark:border-white/10"
-          >
-            <h2 className="text-lg font-semibold">{c.business_name}</h2>
-            <p className="text-xs text-gray-500">{c.location_id}</p>
-            <dl className="mt-2 space-y-1 text-sm">
-              <div>
-                <dt className="inline font-medium">Services: </dt>
-                <dd className="inline">{c.services}</dd>
-              </div>
-              <div>
-                <dt className="inline font-medium">Hours: </dt>
-                <dd className="inline">{c.hours}</dd>
-              </div>
-              <div>
-                <dt className="inline font-medium">Tone: </dt>
-                <dd className="inline">{c.tone}</dd>
-              </div>
-            </dl>
-          </div>
+          <ConfigForm key={c.location_id} client={c} />
         ))}
       </div>
     </main>
