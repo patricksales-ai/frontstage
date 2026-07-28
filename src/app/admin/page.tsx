@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import ConfigForm from "@/components/ConfigForm";
+import ActivityPanel from "@/components/ActivityPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,21 @@ export default async function AdminPage() {
   const { data: clients, error } = await supabase
     .from("clients")
     .select("location_id, business_name, services, hours, tone, faq, escalation_contact");
+
+  // Conversation activity — RLS ("owners read own interactions") scopes to this owner's tenants.
+  const { data: interactions } = await supabase
+    .from("interactions")
+    .select("id, channel, customer_message, agent_reply, created_at, contact_id")
+    .order("created_at", { ascending: false })
+    .limit(25);
+
+  const { count: totalConversations } = await supabase
+    .from("interactions")
+    .select("*", { count: "exact", head: true });
+
+  // Unique leads = distinct contact_id (small volume → compute in JS).
+  const { data: leadRows } = await supabase.from("interactions").select("contact_id");
+  const uniqueLeads = new Set((leadRows ?? []).map((r) => r.contact_id)).size;
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 p-6">
@@ -44,6 +60,12 @@ export default async function AdminPage() {
           <ConfigForm key={c.location_id} client={c} />
         ))}
       </div>
+
+      <ActivityPanel
+        interactions={interactions ?? []}
+        total={totalConversations ?? 0}
+        uniqueLeads={uniqueLeads}
+      />
     </main>
   );
 }
