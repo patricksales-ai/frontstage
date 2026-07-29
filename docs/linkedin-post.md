@@ -39,6 +39,11 @@ Would you trust it at your front desk?
 
 ---
 
+## Screenshots to attach (native upload, in this order)
+
+1. `docs/screenshots/frontstage-demo-chat.png` — visitor asks "Do you offer Invisalign?" → agent answers yes (the killer-loop proof).
+2. `docs/screenshots/frontstage-admin-dashboard.png` — owner config editor (Services incl. Invisalign) + Save/"Saved." + live conversation metrics. Email fields redacted.
+
 ## First comment
 
 Chat with it live here 👇
