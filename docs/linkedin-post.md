@@ -43,6 +43,7 @@ Would you trust it at your front desk?
 
 1. `docs/screenshots/frontstage-demo-chat.png` — visitor asks "Do you offer Invisalign?" → agent answers yes (the killer-loop proof).
 2. `docs/screenshots/frontstage-admin-dashboard.png` — owner config editor (Services incl. Invisalign) + Save/"Saved." + live conversation metrics. Email fields redacted.
+3. `docs/screenshots/frontdeskpro-n8n.png` — the conversational brain: the FrontDesk Pro (multi-tenant) n8n workflow with sticky-note stages (Webhook → Normalize → tenant config from Supabase → Switch → AI Agent with OpenAI + memory + 3 tools: check_availability / book_appointment / escalate_to_human → reply + log).
 
 ## First comment
 
